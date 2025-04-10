@@ -3,6 +3,7 @@ package com.example.Quick_Duty.controller;
 import com.example.Quick_Duty.dto.TaskDTO;
 import com.example.Quick_Duty.entity.Task;
 import com.example.Quick_Duty.exceptions.TaskAlradyExsistException;
+import com.example.Quick_Duty.exceptions.TaskNotFoundException;
 import com.example.Quick_Duty.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,20 @@ public class TaskController {
         }catch (TaskAlradyExsistException e){
             e.printStackTrace();
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateTask(@RequestBody TaskDTO taskDTO) {
+        try {
+            taskService.updateTask(taskDTO);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (TaskNotFoundException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

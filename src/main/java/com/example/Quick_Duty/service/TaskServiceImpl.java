@@ -1,8 +1,11 @@
 package com.example.Quick_Duty.service;
 
 import com.example.Quick_Duty.dto.TaskDTO;
+import com.example.Quick_Duty.entity.Task;
 import com.example.Quick_Duty.exceptions.TaskAlradyExsistException;
+import com.example.Quick_Duty.exceptions.TaskNotFoundException;
 import com.example.Quick_Duty.repostory.TaskRepostory;
+import com.example.Quick_Duty.util.Conveter;
 import com.example.Quick_Duty.util.Map;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -10,14 +13,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
-
     private final TaskRepostory taskRepostory;
     private final Map map;
+    private final Conveter conveter;
 
     @Override
     public void saveTask(TaskDTO task) {
@@ -27,7 +31,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void updateTask(TaskDTO task) {
-
+        Task foundTask = taskRepostory.findById(task.getId()).orElseThrow(() -> new TaskNotFoundException("Task not found"));
+        Task updatedTask = map.toTask(task);
+        conveter.convertTask(foundTask,updatedTask);
     }
 
     @Override
