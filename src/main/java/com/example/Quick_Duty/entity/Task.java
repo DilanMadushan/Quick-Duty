@@ -1,8 +1,7 @@
 package com.example.Quick_Duty.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.example.Quick_Duty.util.Status;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ public class Task{
     private Long id;
     private String title;
     private String description;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
     private LocalDateTime createdAt;
 }
