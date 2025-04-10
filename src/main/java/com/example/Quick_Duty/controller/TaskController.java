@@ -75,4 +75,17 @@ public class TaskController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping(value = "{id}")
+    public ResponseEntity<?> getTask(@PathVariable Long id) {
+        try{
+            return new ResponseEntity<>(taskService.findTask(id),HttpStatus.OK);
+        }catch (TaskNotFoundException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

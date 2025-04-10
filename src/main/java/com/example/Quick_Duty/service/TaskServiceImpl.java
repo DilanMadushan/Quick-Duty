@@ -49,7 +49,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void findTask(Long id) {
-
+    public TaskDTO findTask(Long id) {
+        taskRepostory.findById(id).orElseThrow(() -> new TaskNotFoundException("Task not found"));
+        return map.toTaskDTO(taskRepostory.findById(id).get());
     }
 }
