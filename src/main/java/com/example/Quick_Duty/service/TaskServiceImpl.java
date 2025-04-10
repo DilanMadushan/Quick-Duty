@@ -44,7 +44,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDTO> getAllTasks() {
-        return List.of();
+        if(taskRepostory.findAll().size() <= 0) throw new TaskNotFoundException("Task not found");
+        return map.toTaskDTOList(taskRepostory.findAll());
     }
 
     @Override

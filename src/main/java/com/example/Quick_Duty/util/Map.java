@@ -7,6 +7,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class Map {
@@ -18,5 +20,9 @@ public class Map {
 
     public TaskDTO toTaskDTO(Task task) {
         return modelMapper.map(task, TaskDTO.class);
+    }
+
+    public List<TaskDTO> toTaskDTOList(List<Task> tasks) {
+        return modelMapper.map(tasks, List.class);
     }
 }
